@@ -1,20 +1,53 @@
-import React, { useContext } from 'react';
-import { View, Text, Button, FlatList } from 'react-native';
+import React, { useContext, useState } from 'react';
+import { View, Text, Button, FlatList, Image, StyleSheet, ActivityIndicator } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { CartContext } from '../context/CartContext';
 import { Product } from '../context/CartContext';
 import { globalStyles } from '../styles/globalStyles';
 
 const products: Product[] = [
-  { id: 1, name: 'Choco Baby', price: 50 },
-  { id: 2, name: 'Cadbury', price: 100 },
-  { id: 3, name: 'Toblerone', price: 100 },
+  {
+    id: 1,
+    name: 'Choco Baby (Small Size)',
+    price: 50,
+    image: require('../assets/ChocoBaby.jpg'),
+  },
+  {
+    id: 2,
+    name: 'Cadbury Milk Chocolate',
+    price: 100,
+    image: require('../assets/Cadbury.jpeg'),
+  },
+  {
+    id: 3,
+    name: 'Toblerone Milk Chocolate',
+    price: 100,
+    image: require('../assets/Toblerone.jpg'),
+  },
+  {
+    id: 4,
+    name: 'Hershey\'s Kisses Milk Chocolate',
+    price: 170,
+    image: require('../assets/Kisses.jpg'),
+  },
+  {
+    id: 5,
+    name: 'Ferrero Rocher (8 pieces)',
+    price: 270,
+    image: require('../assets/Ferrero.jpg'),
+  },
+  {
+    id: 6,
+    name: 'Reese\'s Peanut Butter Cups',
+    price: 70,
+    image: require('../assets/Reeses.jpg'),
+  },
 ];
 
 export default function HomeScreen({ navigation }: { navigation: any }) {
   const { cart, addToCart } = useContext(CartContext);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
-  // total number of items in the cart
   const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
 
   return (
@@ -24,6 +57,12 @@ export default function HomeScreen({ navigation }: { navigation: any }) {
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <View style={globalStyles.product}>
+            {!imageLoaded && <ActivityIndicator size="small" color="#FF6A00" />}
+            <Image
+              source={item.image}
+              style={styles.image}
+              onLoad={() => setImageLoaded(true)}
+            />
             <Text style={globalStyles.productText}>{item.name} - P{item.price}</Text>
             <Button
               title="Add to Cart"
@@ -48,3 +87,12 @@ export default function HomeScreen({ navigation }: { navigation: any }) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  image: {
+    width: 50,
+    height: 50,
+    borderRadius: 5,
+    marginRight: 10,
+  },
+});

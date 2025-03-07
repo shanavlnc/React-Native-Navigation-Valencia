@@ -1,24 +1,27 @@
 import React, { createContext, useState } from 'react';
+import { ImageSourcePropType } from 'react-native';
 
 export interface Product {
   id: number;
   name: string;
   price: number;
   quantity?: number;
+  image: ImageSourcePropType; // Update this line
+
 }
 
 interface CartContextType {
   cart: Product[];
   addToCart: (product: Product) => void;
   removeFromCart: (product: Product) => void;
-  clearCart: () => void; // Add this function
+  clearCart: () => void;
 }
 
 export const CartContext = createContext<CartContextType>({
   cart: [],
   addToCart: () => {},
   removeFromCart: () => {},
-  clearCart: () => {}, // Add this function
+  clearCart: () => {},
 });
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -54,7 +57,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  // to clear the cart after checkout 
   const clearCart = () => {
     setCart([]);
   };

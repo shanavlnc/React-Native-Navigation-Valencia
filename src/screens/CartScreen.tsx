@@ -1,46 +1,67 @@
-import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import HomeScreen from './HomeScreen';
-import CartScreen from './CartScreen';
-import CheckoutScreen from './CheckoutScreen';
+import React, { useContext } from 'react';
+import { View, Text, Button, FlatList, StyleSheet } from 'react-native';
+import { CartContext } from '../context/CartContext';
+import { globalStyles } from '../styles/globalStyles';
 
-export type RootStackParamList = {
-  Home: undefined;
-  Cart: undefined;
-  Checkout: undefined;
-};
+export default function CartScreen({ navigation }: { navigation: any }) {
+  const { cart, addToCart, removeFromCart } = useContext(CartContext);
 
-const Stack = createStackNavigator<RootStackParamList>();
+  const totalPrice = cart.reduce((sum, item) => sum + item.price * (item.quantity || 1), 0);
 
-export default function AppNavigator() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Home"
-        screenOptions={{
-          headerTitleStyle: {
-            fontFamily: 'Poppins-Bold',
-            fontSize: 20, 
-          },
-        }}
-      >
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{ title: 'Chocolate Lover Shop' }}
-        />
-        <Stack.Screen
-          name="Cart"
-          component={CartScreen}
-          options={{ title: 'My Cart' }}
-        />
-        <Stack.Screen
-          name="Checkout"
-          component={CheckoutScreen}
-          options={{ title: 'Checkout' }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <View style={globalStyles.container}>
+      {cart.length === 0 ? (
+        <View style={styles.emptyCartContainer}>
+          <Text style={globalStyles.emptyCartText}>Your cart is empty</Text>
+        </View>
+      ) : (
+        <>
+          <FlatList
+            data={cart}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => (
+              <View style={globalStyles.product}>
+                <Text style={globalStyles.productText}>
+                  {item.name} - P{item.price} x {item.quantity}
+                </Text>
+                <View style={styles.buttons}>
+                  <Button
+                    title="+"
+                    onPress={() => addToCart(item)}
+                    color="#FF6A00"
+                  />
+                  <View style={styles.buttonSpacer} />
+                  <Button
+                    title="-"
+                    onPress={() => removeFromCart(item)}
+                    color="#FF6A00"
+                  />
+                </View>
+              </View>
+            )}
+          />
+          <Text style={globalStyles.total}>Total: P{totalPrice}</Text>
+        </>
+      )}
+      <Button
+        title="Checkout"
+        onPress={() => navigation.navigate('Checkout')}
+        disabled={cart.length === 0}
+        color={cart.length === 0 ? '#CCCCCC' : '#FF6A00'}
+      />
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  buttons: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  buttonSpacer: {
+    width: 8,
+  },
+  emptyCartContainer: {
+    marginBottom: 20,
+  },
+});
