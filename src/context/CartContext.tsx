@@ -6,8 +6,8 @@ export interface Product {
   name: string;
   price: number;
   quantity?: number;
-  image: ImageSourcePropType; // Update this line
-
+  image: ImageSourcePropType; 
+  description: string;
 }
 
 interface CartContextType {

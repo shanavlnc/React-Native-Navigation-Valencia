@@ -6,6 +6,7 @@ export const globalStyles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#FFFFFF',
   },
+
   product: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -15,17 +16,35 @@ export const globalStyles = StyleSheet.create({
     backgroundColor: '#F5F5F5',
     borderRadius: 5,
   },
+
   productText: {
     fontSize: 16,
     color: '#000000',
     fontFamily: 'Poppins-Regular',
-    flexShrink: 1, // Allow text to shrink if necessary
+    flexShrink: 1, 
   },
-  productPrice: { // Add this style
+
+  productPrice: {
     fontSize: 14,
     color: '#555555',
     fontFamily: 'Poppins-Regular',
   },
+
+  total: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#000000',
+    fontFamily: 'Poppins-Bold',
+  },
+
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#000000',
+    marginBottom: 20,
+    fontFamily: 'Poppins-Bold',
+  },
+
   cartSummary: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -35,34 +54,24 @@ export const globalStyles = StyleSheet.create({
     backgroundColor: '#F5F5F5',
     borderRadius: 5,
   },
+
   cartIconContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
+
   cartSummaryText: {
     fontSize: 16,
     color: '#000000',
     marginLeft: 8,
     fontFamily: 'Poppins-SemiBold',
   },
+
   emptyCartText: {
     fontSize: 18,
     textAlign: 'center',
     color: '#555555',
     marginTop: 20,
     fontFamily: 'Poppins-Regular',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#000000',
-    marginBottom: 20,
-    fontFamily: 'Poppins-Bold',
-  },
-  total: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#000000',
-    fontFamily: 'Poppins-Bold',
   },
 });

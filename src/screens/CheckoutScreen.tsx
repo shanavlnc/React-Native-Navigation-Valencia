@@ -7,7 +7,8 @@ import { globalStyles } from '../styles/globalStyles';
 export default function CheckoutScreen({ navigation }: { navigation: any }) {
   const { cart, clearCart } = useContext(CartContext);
 
-  const totalPrice = cart.reduce((sum, item) => sum + item.price * (item.quantity || 1), 0);
+  // the total price for all items in the cart
+  const checkoutTotal = cart.reduce((sum, item) => sum + item.price * (item.quantity || 1), 0);
 
   const handleCheckout = () => {
     Alert.alert('Checkout successful', 'Thank you for your purchase!', [
@@ -29,29 +30,33 @@ export default function CheckoutScreen({ navigation }: { navigation: any }) {
 
   return (
     <View style={globalStyles.container}>
-      <Text style={globalStyles.title}>Checkout</Text>
       <FlatList
         data={cart}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <View style={styles.productContainer}>
-            <Image
-              source={item.image}
-              style={styles.image}
-            />
-            <View style={styles.productDetails}>
-              <Text style={globalStyles.productText} numberOfLines={2} ellipsizeMode="tail">
-                {item.name}
-              </Text>
-              <Text style={globalStyles.productPrice}>
-                P{item.price} x {item.quantity}
-              </Text>
+        renderItem={({ item }) => {
+          // the total price for this product
+          const totalPricePerProduct = item.price * (item.quantity || 1);
+
+          return (
+            <View style={globalStyles.product}>
+              <Image
+                source={item.image}
+                style={styles.image}
+              />
+              <View style={styles.productDetails}>
+                <Text style={globalStyles.productText} numberOfLines={2} ellipsizeMode="tail">
+                  {item.name}
+                </Text>
+                <Text style={globalStyles.productPrice}>
+                  P{totalPricePerProduct}
+                </Text>
+              </View>
             </View>
-          </View>
-        )}
+          );
+        }}
       />
       <View style={styles.totalContainer}>
-        <Text style={globalStyles.total}>Total: P{totalPrice}</Text>
+        <Text style={globalStyles.total}>Checkout Total: P{checkoutTotal}</Text>
       </View>
       <View style={styles.buttonContainer}>
         <Button
@@ -65,14 +70,6 @@ export default function CheckoutScreen({ navigation }: { navigation: any }) {
 }
 
 const styles = StyleSheet.create({
-  productContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-    padding: 10,
-    backgroundColor: '#F5F5F5',
-    borderRadius: 5,
-  },
   image: {
     width: 50,
     height: 50,

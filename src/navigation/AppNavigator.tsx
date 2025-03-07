@@ -21,19 +21,19 @@ export default function AppNavigator() {
         screenOptions={{
           headerTitleStyle: {
             fontFamily: 'Poppins-Bold',
-            fontSize: 20, 
+            fontSize: 20,
           },
         }}
       >
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          options={{ title: 'Chocolate Lover Shop' }}
+          options={{ title: 'The Choco Zone' }}
         />
         <Stack.Screen
           name="Cart"
           component={CartScreen}
-          options={{ title: 'My Cart' }}
+          options={{ title: 'My Cart' }} 
         />
         <Stack.Screen
           name="Checkout"

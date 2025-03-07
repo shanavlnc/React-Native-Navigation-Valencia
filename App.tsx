@@ -7,7 +7,6 @@ import { CartProvider } from './src/context/CartContext';
 export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
-  // Load the custom fonts
   useEffect(() => {
     async function loadFonts() {
       await Font.loadAsync({
@@ -21,7 +20,6 @@ export default function App() {
     loadFonts();
   }, []);
 
-  // Show a loading indicator until the fonts are loaded
   if (!fontsLoaded) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
